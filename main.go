@@ -51,11 +51,25 @@ func main() {
 
 	inputArg := strings.Split(input, `\n`)
 
-	for i, word := range inputArg {
+	isOnlyNewline := true
+
+	for _, word := range inputArg {
+		if word != "" {
+			isOnlyNewline = !isOnlyNewline
+			break
+		}
+	}
+
+	if isOnlyNewline {
+		for i := 0; i < len(inputArg)-1; i++ {
+			fmt.Println()
+
+		}
+		return
+	}
+
+	for _, word := range inputArg {
 		if word == "" {
-			if len(inputArg)-1 == i {
-				continue
-			}
 			fmt.Println()
 			continue
 		}
