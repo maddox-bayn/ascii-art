@@ -32,9 +32,8 @@ func LoadBanner(filename string) ([][]string, error) {
 		startIndex := (i-32)*9 + 1
 		endIndex := startIndex + 8
 
-		if len(fileLines) <= 126 {
-			asciiTable[i] = fileLines[startIndex:endIndex]
-		}
+		asciiTable[i] = fileLines[startIndex:endIndex]
+
 	}
 	return asciiTable, nil
 }
