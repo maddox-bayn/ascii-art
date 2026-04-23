@@ -27,9 +27,9 @@ func main() {
 	}
 
 	input := os.Args[1]
-	banner := "standard.txt"
+	banner := "standard"
 	if len(os.Args) > 2 {
-		if os.Args[2] == "standard.txt" || os.Args[2] == "shadow.txt" || os.Args[2] == "thinkertoy.txt" {
+		if os.Args[2] == "standard" || os.Args[2] == "shadow" || os.Args[2] == "thinkertoy" {
 			banner = os.Args[2]
 		}
 	}
@@ -45,7 +45,7 @@ func main() {
 	}
 
 	// load data from banner into [][]string
-	asciiTable, err := functions.LoadBanner(banner)
+	asciiTable, err := functions.LoadBanner(banner+".txt")
 	if err != nil {
 		fmt.Println("Error.. Loading banner")
 		return
