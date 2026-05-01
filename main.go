@@ -9,7 +9,11 @@ import (
 	"strings"
 )
 
-func PrintArt(asciiTable [][]string, inputArg []string) {
+func PrintArt(asciiTable [][]string, inputArg []string, color string, subStr string) {
+
+	colorMap := map[string]string{"red": "\033[31m", "green": "\033[32m", "yellow": "\033[34m"}
+
+
 	isOnlyNewline := true
 
 	for _, word := range inputArg {
@@ -32,9 +36,14 @@ func PrintArt(asciiTable [][]string, inputArg []string) {
 			fmt.Println()
 			continue
 		}
+		stIdx := strings.Index(word, subStr)
 		for lineChar := 0; lineChar < 8; lineChar++ {
-			for _, char := range word {
-				fmt.Print(asciiTable[char-32][lineChar])
+			for i, char := range word {
+				if i >= stIdx || i <= stIdx+len(subStr)-1 {
+					colorMap[color] + asciiTable[char-32][lineChar] + "\033[0m"
+					fmt.Print(asciiTable[char-32][lineChar])
+				}
+				
 			}
 			fmt.Println()
 		}
@@ -58,12 +67,29 @@ func main() {
 		return
 	}
 
+	color := ""
 	input := os.Args[1]
 	banner := "standard"
-	if len(os.Args) > 2 {
-		if os.Args[2] == "standard" || os.Args[2] == "shadow" || os.Args[2] == "thinkertoy" {
-			banner = os.Args[2]
+	subStr := ""
+
+	if strings.HasPrefix(input, "--color=") && len(os.Args) == 3 {
+		color = input[8:]
+		input = os.Args[2]
+	}
+	if strings.HasPrefix(input, "--color=") && len(os.Args) == 4 {
+		color = input[8:]
+		input = os.Args[2]
+		if os.Args[3] == "standard" || os.Args[3] == "shadow" || os.Args[3] == "thinkertoy" {
+			banner = os.Args[3]
 		}
+	}
+
+	if os.Args[2] == "standard" || os.Args[2] == "shadow" || os.Args[2] == "thinkertoy" {
+		banner = os.Args[2]
+	}
+
+	if strings.HasPrefix(input, "--color=") && len(os.Args) == 5 {
+		subStr = os.Args[2]
 	}
 
 	if input == "" {
@@ -84,6 +110,6 @@ func main() {
 
 	inputArg := strings.Split(input, `\n`)
 
-	PrintArt(asciiTable, inputArg)
+	PrintArt(asciiTable, inputArg, color, subStr)
 
 }
