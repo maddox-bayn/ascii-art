@@ -1,0 +1,66 @@
+package functions
+
+import "fmt"
+
+func PrintArt(asciiTable [][]string, inputArg []string, color string, subStr string) {
+
+	colorMap := map[string]string{"red": "\033[31m", "green": "\033[32m", "yellow": "\033[33m", "black": "\033[30m", "blue": "\033[34m", "white": "\033[37m", "magenta": "\033[35m"}
+
+	isOnlyNewline := true
+
+	for _, word := range inputArg {
+		if word != "" {
+			isOnlyNewline = false
+			break
+		}
+	}
+
+	if isOnlyNewline {
+		for i := 0; i < len(inputArg)-1; i++ {
+			fmt.Println()
+
+		}
+		return
+	}
+
+	for _, word := range inputArg {
+		if word == "" {
+			fmt.Println()
+			continue
+		}
+
+		needColor := make([]bool, len(word))
+		if subStr == "" {
+			// If no substring is specified, color the whole word
+			for i := range needColor {
+				needColor[i] = true
+			}
+			//return needColor
+		}
+
+		// Instead of just one strings.Index:
+		if subStr != "" {
+			for i := 0; i <= len(word)-len(subStr); i++ {
+				if word[i:i+len(subStr)] == subStr {
+					for j := 0; j < len(subStr); j++ {
+						needColor[i+j] = true
+					}
+					// Optional: i += len(subStr) - 1 to skip overlapping matches
+				}
+			}
+		}
+		for lineChar := 0; lineChar < 8; lineChar++ {
+			for i, char := range word {
+				//	needColor := i >= stIdx || i <= stIdx+len(subStr)-1
+
+				if needColor[i] {
+					fmt.Print(colorMap[color] + asciiTable[char-32][lineChar] + "\033[0m")
+					//
+				} else {
+					fmt.Print(asciiTable[char-32][lineChar])
+				}
+			}
+			fmt.Println()
+		}
+	}
+}
