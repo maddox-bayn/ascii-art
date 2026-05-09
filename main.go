@@ -4,12 +4,9 @@ import (
 	"ascii-art/functions"
 	"errors"
 	"fmt"
-	"log"
 	"os"
 	"strings"
 )
-
-
 
 func verifyInput(str string) error {
 	for _, char := range str {
@@ -22,6 +19,7 @@ func verifyInput(str string) error {
 }
 
 func main() {
+	
 	// check user input
 	if len(os.Args) < 2 {
 		fmt.Println("Error.. RUN: go run . \"input-text\"")
@@ -32,18 +30,14 @@ func main() {
 
 	if len(defaultArgs) == 0 || len(defaultArgs[0]) == 0 {
 		if len(defaultArgs) > 1 && len(defaultArgs[0]) == 0 {
-		functions.Usage()
+			functions.Usage()
 		}
 		return
 	}
 
-	
+	flag, args := functions.ExtractFlags(defaultArgs)
 
-
-	err := verifyInput(input)
-	if err != nil {
-		log.Fatal(err)
-	}
+	subStr, text, banner := functions.GetArgs(args, flag["color"] != "")
 
 	// load data from banner into [][]string
 	asciiTable, err := functions.LoadBanner(banner + ".txt")
@@ -52,8 +46,8 @@ func main() {
 		return
 	}
 
-	inputArg := strings.Split(input, `\n`)
+	inputArg := strings.Split(text, `\n`)
 
-	functions.PrintArt(asciiTable, inputArg, color, subStr)
+	functions.PrintArt(asciiTable, inputArg, flag["color"], subStr)
 
 }
