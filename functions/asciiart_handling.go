@@ -36,7 +36,7 @@ func PrintArt(asciiTable [][]string, inputArg []string, color string, subStr str
 			for i, char := range word {
 				//	needColor := i >= stIdx || i <= stIdx+len(subStr)-1
 
-				if needColor[i] {
+				if color != "" && needColor[i] {
 					art.WriteString(ColorMap[color] + asciiTable[char-32][lineChar] + "\033[0m")
 					//
 				} else {

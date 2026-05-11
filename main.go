@@ -6,6 +6,7 @@ import (
 	"log"
 	"os"
 	"strings"
+	"time"
 )
 
 func main() {
@@ -21,10 +22,13 @@ func main() {
 
 	subStr, text, banner := functions.GetArgs(args, flag["color"] != "")
 
-	err := functions.CheckArgument(args)
-	if err != nil {
-		log.Fatal(err)
+	if len(flag) == 0 {
+		err := functions.CheckArgument(args)
+		if err != nil {
+			log.Fatal(err)
+		}
 	}
+
 	// load data from banner into [][]string
 	asciiTable, err := functions.LoadBanner(banner + ".txt")
 	if err != nil {
@@ -36,5 +40,6 @@ func main() {
 
 	ascii := functions.PrintArt(asciiTable, inputArg, flag["color"], subStr)
 	fmt.Printf("%s", ascii)
+	time.Sleep(time.Second)
 
 }
