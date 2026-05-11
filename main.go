@@ -17,7 +17,6 @@ func main() {
 		}
 		return
 	}
-
 	flag, args := functions.ExtractFlags(defaultArgs)
 
 	subStr, text, banner := functions.GetArgs(args, flag["color"] != "")

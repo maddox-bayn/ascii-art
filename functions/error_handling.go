@@ -9,14 +9,14 @@ import (
 func CheckArgument(args []string) error {
 	arglen := len(args)
 	if arglen == 2 {
-		switch args[1] {
+		switch args[arglen-1] {
 		case "standard", "shadow", "thinkertoy":
 			// is valide banner
 		default:
 			return fmt.Errorf("not a banner name '%s' \nAvailable banner types are: 'standard' (default), 'shadow', and 'thinkertoy'", args[1])
 		}
-	} else if arglen > 2 {
-		return  errors.New("too many arguments")
+	} else if arglen > 3 {
+		return errors.New("too many arguments")
 	}
 	return nil
 }
@@ -31,5 +31,13 @@ func ValidateInput(str string) {
 }
 
 func Usage() {
-	fmt.Fprintf(os.Stdout, "Usage: go run . [OPTOIN] [STRING] [BANNER]\n\n")
+	fmt.Fprintf(os.Stdout, "Usage: go run . [OPTOIN] [STRING] [BANNER]\n")
+}
+
+func PrintColor() {
+	fmt.Println("Invalide color. Please choose one of the following colors")
+	for ckey, clor := range ColorMap {
+		fmt.Printf("- %s%s%s\n", clor, ckey, Reset)
+	}
+	os.Exit(1)
 }

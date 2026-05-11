@@ -1,20 +1,35 @@
 package functions
 
-import "strings"
+import (
+	"os"
+	"strings"
+)
 
 func ExtractFlags(defaultAgs []string) (map[string]string, []string) {
 	flags := make(map[string]string)
 	var filterdArgs []string
 
-	for _, args := range defaultAgs {
+	for i := 0; i < len(defaultAgs); i++ {
+		args := defaultAgs[i]
 		if strings.HasPrefix(args, "--color=") {
 			flags["color"] = args[8:]
-		} else if strings.HasPrefix(args, "--output=") {
+			_, ok := ColorMap[flags["color"]]
+			if !ok {
+				PrintColor()
+			}
+
+			continue
+		}
+		if strings.HasPrefix(args, "--output=") {
 			flags["ouput"] = args[9:]
-		} else {
-			filterdArgs = append(filterdArgs, args)
+			continue
 		}
 
+		filterdArgs = append(filterdArgs, args)
+	}
+	if len(flags) == 0 && len(filterdArgs) > 2 {
+		Usage()
+		os.Exit(2)
 	}
 	return flags, filterdArgs
 }
