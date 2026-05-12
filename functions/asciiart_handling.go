@@ -29,7 +29,7 @@ func PrintArt(asciiTable [][]string, inputArg []string, color string, subStr str
 			art.WriteString("\n")
 			continue
 		}
-		needColor := GetColorMusk(word, subStr)
+		needColor := GetColorMusk(word, subStr, color)
 
 		for lineChar := 0; lineChar < 8; lineChar++ {
 			for i, char := range word {
@@ -39,7 +39,8 @@ func PrintArt(asciiTable [][]string, inputArg []string, color string, subStr str
 				}
 
 				// Stage Change: should turn off?
-				if !needColor[i] && (i > 0 || needColor[i-1]) {
+
+				if !needColor[i] && (i > 0 && needColor[i-1]) {
 					art.WriteString(Reset)
 				}
 

@@ -22,11 +22,9 @@ func main() {
 
 	subStr, text, banner := functions.GetArgs(args, flag["color"] != "")
 
-	if len(flag) == 0 {
-		err := functions.CheckArgument(args)
-		if err != nil {
-			log.Fatal(err)
-		}
+	err := functions.CheckArgument(args)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// load data from banner into [][]string

@@ -8,12 +8,12 @@ import (
 
 func CheckArgument(args []string) error {
 	arglen := len(args)
-	if arglen == 2 {
+	if arglen == 3 {
 		switch args[arglen-1] {
 		case "standard", "shadow", "thinkertoy":
 			// is valide banner
 		default:
-			return fmt.Errorf("not a banner name '%s' \nAvailable banner types are: 'standard' (default), 'shadow', and 'thinkertoy'", args[1])
+			return fmt.Errorf("not a banner name '%s' \nAvailable banner types are: 'standard' (default), 'shadow', and 'thinkertoy'", args[arglen-1])
 		}
 	} else if arglen > 3 {
 		return errors.New("too many arguments")

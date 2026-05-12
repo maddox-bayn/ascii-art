@@ -1,6 +1,7 @@
 package functions
 
 import (
+	"fmt"
 	"os"
 	"strings"
 )
@@ -27,6 +28,7 @@ func ExtractFlags(defaultAgs []string) (map[string]string, []string) {
 
 		filterdArgs = append(filterdArgs, args)
 	}
+	fmt.Println(filterdArgs)
 	if len(flags) == 0 && len(filterdArgs) > 2 {
 		Usage()
 		os.Exit(2)
