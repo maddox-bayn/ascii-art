@@ -1,7 +1,6 @@
 package functions
 
 import (
-	"fmt"
 	"strings"
 )
 
@@ -27,24 +26,34 @@ func PrintArt(asciiTable [][]string, inputArg []string, color string, subStr str
 
 	for _, word := range inputArg {
 		if word == "" {
-			fmt.Println()
+			art.WriteString("\n")
 			continue
 		}
 		needColor := GetColorMusk(word, subStr)
 
 		for lineChar := 0; lineChar < 8; lineChar++ {
 			for i, char := range word {
-				//	needColor := i >= stIdx || i <= stIdx+len(subStr)-1
-
-				if color != "" && needColor[i] {
-					art.WriteString(ColorMap[color] + asciiTable[char-32][lineChar] + "\033[0m")
-					//
-				} else {
-					art.WriteString(asciiTable[char-32][lineChar])
+				//	Stage Change: should turn color on
+				if needColor[i] && (i == 0 || !needColor[i-1]) {
+					art.WriteString(ColorMap[color])
 				}
+
+				// Stage Change: should turn off?
+				if !needColor[i] && (i > 0 || needColor[i-1]) {
+					art.WriteString(Reset)
+				}
+
+				//Action: Always draw the character art
+				art.WriteString(asciiTable[char-32][lineChar])
+			}
+
+			// Safety: if the last character of the word was colored, rest it at the end of the line
+			if needColor[len(word)-1] {
+				art.WriteString(Reset)
 			}
 			art.WriteString("\n")
 		}
+
 	}
 	return art.String()
 }
