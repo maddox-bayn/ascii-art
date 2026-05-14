@@ -25,6 +25,10 @@ func ExtractFlags(defaultAgs []string) (map[string]string, []string) {
 			flags["ouput"] = args[9:]
 			continue
 		}
+		if strings.HasPrefix(args, "--align=") {
+			flags["align"] = args[8:]
+			continue
+		}
 
 		filterdArgs = append(filterdArgs, args)
 	}

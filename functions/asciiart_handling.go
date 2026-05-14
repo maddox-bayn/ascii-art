@@ -4,10 +4,12 @@ import (
 	"strings"
 )
 
-func PrintArt(asciiTable [][]string, inputArg []string, color string, subStr string) string {
+func PrintArt(asciiTable [][]string, inputArg []string, flag map[string]string, subStr string) string {
 
 	var art strings.Builder
 	isOnlyNewline := true
+	color := flag["color"]
+	align := flag["align"]
 
 	for _, word := range inputArg {
 		if word != "" {
@@ -30,6 +32,12 @@ func PrintArt(asciiTable [][]string, inputArg []string, color string, subStr str
 			continue
 		}
 		needColor := GetColorMusk(word, subStr, color)
+		rendLines := RenderLine(word, asciiTable)
+		terminalWidth := GetTerminalWidth()
+
+		AsciiWidth := len(rendLines[0])
+
+		padd := Padding(flag, terminalWidth, AsciiWidth)
 
 		for lineChar := 0; lineChar < 8; lineChar++ {
 			for i, char := range word {
@@ -42,6 +50,20 @@ func PrintArt(asciiTable [][]string, inputArg []string, color string, subStr str
 
 				if !needColor[i] && (i > 0 && needColor[i-1]) {
 					art.WriteString(Reset)
+				}
+
+				if align != "" {
+					space := Addpadding(padd)
+					if i == 0 && align != "left"{
+						art.WriteString(space + asciiTable[char-32][lineChar])
+					} else if align == "center" && i != 0 {
+						art.WriteString(asciiTable[char-32][lineChar] + space)
+					} else if align == "left" {
+						art.WriteString(asciiTable[char-32][lineChar])
+					} else {
+						art.WriteString(asciiTable[char-32][lineChar])
+					}
+					continue
 				}
 
 				//Action: Always draw the character art

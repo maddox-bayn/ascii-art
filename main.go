@@ -36,7 +36,7 @@ func main() {
 
 	inputArg := strings.Split(text, `\n`)
 
-	ascii := functions.PrintArt(asciiTable, inputArg, flag["color"], subStr)
+	ascii := functions.PrintArt(asciiTable, inputArg, flag, subStr)
 	fmt.Printf("%s", ascii)
 	time.Sleep(time.Second)
 
