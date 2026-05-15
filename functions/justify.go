@@ -24,6 +24,6 @@ func GetTerminalWidth() int {
 	if int(retCode) == -1 {
 		return 80 // Default fallback if we can't detect it
 	}
-	fmt.Println(int(ws.Col))
+	 fmt.Println(int(ws.Col))
 	return int(ws.Col)
 }
