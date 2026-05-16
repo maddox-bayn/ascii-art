@@ -42,11 +42,11 @@ func ExtractFlags(defaultAgs []string) (map[string]string, []string) {
 
 func GetArgs(args []string, hascolor bool) (substr, text, banner string) {
 	banner = "standard"
-	if len(args) > 0 {
+	if len(args) > 1 {
 		last := args[len(args)-1]
 
 		if last == "standard" || last == "shadow" || last == "thinkertoy" {
-			banner = last
+			banner = last 
 			args = args[:len(args)-1]
 		}
 	}

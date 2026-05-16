@@ -54,10 +54,11 @@ func PrintArt(asciiTable [][]string, inputArg []string, flag map[string]string, 
 
 				if align != "" {
 					space := Addpadding(padd)
-					if i == 0 && align != "left"{
+					CheckAlignment(align)
+					if i == 0 && align == "right" {
 						art.WriteString(space + asciiTable[char-32][lineChar])
-					} else if align == "center" && i != 0 {
-						art.WriteString(asciiTable[char-32][lineChar] + space)
+					} else if align == "center" && i == 0 {
+						art.WriteString(space + asciiTable[char-32][lineChar])
 					} else if align == "left" {
 						art.WriteString(asciiTable[char-32][lineChar])
 					} else {

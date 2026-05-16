@@ -30,6 +30,15 @@ func ValidateInput(str string) {
 	}
 }
 
+func CheckAlignment(s string) {
+	switch s {
+	case "left", "right", "center":
+	default:
+		fmt.Fprintf(os.Stdout, "Error... Invalide alignment '%s' \nvalide alignment are [left, right, center]\n", s)
+		os.Exit(1)
+	}
+}
+
 func Usage() {
 	fmt.Fprintf(os.Stdout, "Usage: go run . [OPTOIN] [STRING] [BANNER]\n")
 }

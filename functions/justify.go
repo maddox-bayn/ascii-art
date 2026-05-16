@@ -2,6 +2,8 @@ package functions
 
 import (
 	"fmt"
+	"log"
+	"strings"
 	"syscall"
 	"unsafe"
 )
@@ -14,16 +16,32 @@ type winsize struct {
 }
 
 func GetTerminalWidth() int {
-	ws := &winsize{}
-	// TIOCGWINSZ is the magic number (ioctl request) to get window size
-	retCode, _, _ := syscall.Syscall(syscall.SYS_IOCTL,
-		uintptr(syscall.Stdout),
-		uintptr(syscall.TIOCGWINSZ),
-		uintptr(unsafe.Pointer(ws)))
+	var ws = &winsize{}
 
-	if int(retCode) == -1 {
-		return 80 // Default fallback if we can't detect it
+	r, _, errno := syscall.Syscall(syscall.SYS_IOCTL, uintptr(syscall.Stdout), uintptr(syscall.TIOCGWINSZ), uintptr(unsafe.Pointer(ws)))
+	if errno != 0 {
+		log.Fatal(errno)
 	}
-	 fmt.Println(int(ws.Col))
+	if int(r) == -1 {
+		return 80
+	}
 	return int(ws.Col)
+}
+
+func Padding(flag map[string]string, tWidth, ascii_len int) int {
+	//	var alignv = []string{"right", "left", "center"}
+	align := flag["align"]
+	fmt.Println(align)
+	spacetoAdd := tWidth - ascii_len
+	if align != "" {
+		if align == "center" {
+			spacetoAdd = spacetoAdd / 2
+		}
+	}
+	return spacetoAdd
+}
+
+func Addpadding(padd int) string {
+	space := strings.Repeat(" ", padd)
+	return space
 }
