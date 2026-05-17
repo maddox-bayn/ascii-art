@@ -4,6 +4,14 @@ import (
 	"strings"
 )
 
+func hancleSpace(SliceInput []string) []string {
+	for i, input := range SliceInput {
+		sortinput := strings.Fields(input)
+
+		SliceInput[i] = strings.Join(sortinput, " ")
+	}
+	return SliceInput
+}
 func PrintArt(asciiTable [][]string, inputArg []string, flag map[string]string, subStr string) string {
 
 	var art strings.Builder
@@ -24,6 +32,10 @@ func PrintArt(asciiTable [][]string, inputArg []string, flag map[string]string, 
 
 		}
 		return art.String()
+	}
+
+	if align == "justify" {
+		inputArg = hancleSpace(inputArg)
 	}
 
 	for _, word := range inputArg {
@@ -61,6 +73,8 @@ func PrintArt(asciiTable [][]string, inputArg []string, flag map[string]string, 
 						art.WriteString(space + asciiTable[char-32][lineChar])
 					} else if align == "left" {
 						art.WriteString(asciiTable[char-32][lineChar])
+					} else if align == "justify" && char == 32 {
+						art.WriteString("{space}")
 					} else {
 						art.WriteString(asciiTable[char-32][lineChar])
 					}
@@ -77,7 +91,21 @@ func PrintArt(asciiTable [][]string, inputArg []string, flag map[string]string, 
 			}
 			art.WriteString("\n")
 		}
+	}
+	if align == "justify" {
+		artSlice := strings.Split(art.String(), "\n")
+		for i, line := range artSlice {
+			linelen := len(strings.ReplaceAll(line, "{space}", ""))
+			spaceCoutbetweenWord := strings.Count(line, "{space}")
 
+			padd := GetTerminalWidth() - linelen
+			if spaceCoutbetweenWord > 0 {
+				padd = padd / spaceCoutbetweenWord
+			}
+			space := Addpadding(padd)
+			artSlice[i] = strings.ReplaceAll(line, "{space}", space)
+		}
+		return strings.Join(artSlice, "\n")
 	}
 	return art.String()
 }

@@ -1,7 +1,6 @@
 package functions
 
 import (
-	"fmt"
 	"os"
 	"strings"
 )
@@ -32,7 +31,6 @@ func ExtractFlags(defaultAgs []string) (map[string]string, []string) {
 
 		filterdArgs = append(filterdArgs, args)
 	}
-	fmt.Println(filterdArgs)
 	if len(flags) == 0 && len(filterdArgs) > 2 {
 		Usage()
 		os.Exit(2)
@@ -46,7 +44,7 @@ func GetArgs(args []string, hascolor bool) (substr, text, banner string) {
 		last := args[len(args)-1]
 
 		if last == "standard" || last == "shadow" || last == "thinkertoy" {
-			banner = last 
+			banner = last
 			args = args[:len(args)-1]
 		}
 	}

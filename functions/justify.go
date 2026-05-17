@@ -18,7 +18,10 @@ type winsize struct {
 func GetTerminalWidth() int {
 	var ws = &winsize{}
 
-	r, _, errno := syscall.Syscall(syscall.SYS_IOCTL, uintptr(syscall.Stdout), uintptr(syscall.TIOCGWINSZ), uintptr(unsafe.Pointer(ws)))
+	r, _, errno := syscall.Syscall(syscall.SYS_IOCTL,
+		uintptr(syscall.Stdout),
+		uintptr(syscall.TIOCGWINSZ),
+		uintptr(unsafe.Pointer(ws)))
 	if errno != 0 {
 		log.Fatal(errno)
 	}
@@ -42,6 +45,9 @@ func Padding(flag map[string]string, tWidth, ascii_len int) int {
 }
 
 func Addpadding(padd int) string {
+	if padd < 1 {
+		log.Fatal("Error... with window size.. try resize your window")
+	}
 	space := strings.Repeat(" ", padd)
 	return space
 }
