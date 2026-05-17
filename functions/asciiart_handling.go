@@ -12,12 +12,13 @@ func hancleSpace(SliceInput []string) []string {
 	}
 	return SliceInput
 }
-func PrintArt(asciiTable [][]string, inputArg []string, flag map[string]string, subStr string) string {
+func ProcessInput(asciiTable [][]string, inputArg []string, flag map[string]string, subStr string) {
 
 	var art strings.Builder
 	isOnlyNewline := true
 	color := flag["color"]
 	align := flag["align"]
+	terminalWidth := 0
 
 	for _, word := range inputArg {
 		if word != "" {
@@ -31,7 +32,7 @@ func PrintArt(asciiTable [][]string, inputArg []string, flag map[string]string, 
 			art.WriteString("\n")
 
 		}
-		return art.String()
+		SaveOrPrintart(art.String(), flag)
 	}
 
 	if align == "justify" {
@@ -45,7 +46,9 @@ func PrintArt(asciiTable [][]string, inputArg []string, flag map[string]string, 
 		}
 		needColor := GetColorMusk(word, subStr, color)
 		rendLines := RenderLine(word, asciiTable)
-		terminalWidth := GetTerminalWidth()
+		if align != "" {
+			terminalWidth = GetTerminalWidth()
+		}
 
 		AsciiWidth := len(rendLines[0])
 
@@ -105,7 +108,6 @@ func PrintArt(asciiTable [][]string, inputArg []string, flag map[string]string, 
 			space := Addpadding(padd)
 			artSlice[i] = strings.ReplaceAll(line, "{space}", space)
 		}
-		return strings.Join(artSlice, "\n")
 	}
-	return art.String()
+	SaveOrPrintart(art.String(), flag)
 }

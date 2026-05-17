@@ -1,7 +1,6 @@
 package functions
 
 import (
-	"fmt"
 	"log"
 	"strings"
 	"syscall"
@@ -34,7 +33,6 @@ func GetTerminalWidth() int {
 func Padding(flag map[string]string, tWidth, ascii_len int) int {
 	//	var alignv = []string{"right", "left", "center"}
 	align := flag["align"]
-	fmt.Println(align)
 	spacetoAdd := tWidth - ascii_len
 	if align != "" {
 		if align == "center" {

@@ -21,7 +21,7 @@ func ExtractFlags(defaultAgs []string) (map[string]string, []string) {
 			continue
 		}
 		if strings.HasPrefix(args, "--output=") {
-			flags["ouput"] = args[9:]
+			flags["output"] = args[9:]
 			continue
 		}
 		if strings.HasPrefix(args, "--align=") {

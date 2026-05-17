@@ -1,6 +1,10 @@
 package functions
 
 import (
+	"fmt"
+	"log"
+	"os"
+	"path/filepath"
 	"strings"
 )
 
@@ -17,4 +21,34 @@ func RenderLine(text string, banner [][]string) []string {
 		b.Reset()
 	}
 	return result
+}
+
+func saveTofile(art, fileNmae string) {
+	file, err := os.Create(fileNmae)
+	if err != nil {
+		log.Fatal("Error creating file")
+	}
+	defer file.Close()
+	filename := file.Name()
+	if ext := filepath.Ext(filename); ext != ".txt" {
+		log.Fatal("Error file must have txt as an extention: <filename.txt>, ", ext)
+	}
+	_, err = file.Write([]byte(art))
+	if err != nil {
+		log.Fatal("Error... writing to file", err)
+	}
+
+}
+
+func PrintArt(s string) {
+	fmt.Printf("%s", s)
+}
+
+func SaveOrPrintart(s string, flag map[string]string) {
+	file := flag["output"]
+	if file != "" {
+		saveTofile(s, file)
+	} else {
+		PrintArt(s)
+	}
 }
