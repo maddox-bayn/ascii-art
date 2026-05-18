@@ -28,6 +28,10 @@ func ExtractFlags(defaultAgs []string) (map[string]string, []string) {
 			flags["align"] = args[8:]
 			continue
 		}
+		if strings.HasPrefix(args, "--reverse=") {
+			flags["reverse"] = args[10:]
+			continue
+		}
 
 		filterdArgs = append(filterdArgs, args)
 	}

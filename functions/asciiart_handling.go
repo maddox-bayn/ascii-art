@@ -18,6 +18,11 @@ func ProcessInput(asciiTable [][]string, inputArg []string, flag map[string]stri
 	isOnlyNewline := true
 	color := flag["color"]
 	align := flag["align"]
+	fileName := flag["reverse"]
+	if fileName != "" {
+		ToReverse(fileName, asciiTable)
+		return
+	}
 	terminalWidth := 0
 
 	for _, word := range inputArg {
