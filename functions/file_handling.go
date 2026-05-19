@@ -2,6 +2,7 @@ package functions
 
 import (
 	"bufio"
+	"fmt"
 	"log"
 	"os"
 	"strings"
@@ -36,9 +37,9 @@ func ToReverse(fileName string, banner [][]string) {
 		log.Fatal(err)
 	}
 
-	for _, block := range blocks {
+	for i, block := range blocks {
 		if len(block) == 0 {
-			b.WriteString("\n")
+			b.WriteString("\\n")
 			continue
 		}
 		current_column := 0
@@ -79,8 +80,10 @@ func ToReverse(fileName string, banner [][]string) {
 
 			}
 		}
-		b.WriteString("\n")
-
+		if i < len(blocks)-1 {
+			b.WriteString("\\n")
+		}
 	}
-	PrintArt(b.String())
+
+	fmt.Println(b.String())
 }
