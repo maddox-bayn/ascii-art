@@ -20,6 +20,10 @@ func ToReverse(fileName string, banner [][]string) {
 
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
+		if len(scanner.Text()) == 0 {
+			blocks = append(blocks, []string{})
+			continue
+		}
 		block = append(block, scanner.Text())
 
 		if len(block) == 8 {
@@ -31,56 +35,52 @@ func ToReverse(fileName string, banner [][]string) {
 	if err = scanner.Err(); err != nil {
 		log.Fatal(err)
 	}
-	for _, block := range blocks {
-		current_column := 0
 
-		// Safety check: make sure the block actually has lines
-		if len(block) < 8 {
+	for _, block := range blocks {
+		if len(block) == 0 {
+			b.WriteString("\n")
 			continue
 		}
+		current_column := 0
 
-		// Loop across the width of the ASCII art line
+		if len(block[0]) < 9 {
+			continue
+		}
 		for current_column < len(block[0]) {
-			matched := false
+			match := false
+			for asciVl := 32; asciVl < 127; asciVl++ {
+				asciiArt := banner[asciVl-32]
+				charWidth := len(asciiArt[0])
 
-			// Test every printable character in your database
-			for asciiVal := 32; asciiVal < 127; asciiVal++ {
-				charArt := banner[asciiVal-32]
-				charWidth := len(charArt[0])
-
-				// Safety guard: Don't slice past the end of the input line!
-				if current_column+charWidth > len(block[0]) {
-					continue
-				}
-
-				// Check if the 8-line window matches charArt
 				matchCount := 0
-				for lineIdx := 0; lineIdx < 8; lineIdx++ {
-					// Slice out the exact column window for this line
-					inputSlice := block[lineIdx][current_column : current_column+charWidth]
 
-					if inputSlice == charArt[lineIdx] {
+				for lineidx := 0; lineidx < 8; lineidx++ {
+
+					if current_column+charWidth > len(block[0]) {
+						continue
+					}
+					//fmt.Println("a")
+					if block[lineidx][current_column:current_column+charWidth] == asciiArt[lineidx] {
 						matchCount++
 					} else {
-						break // Wrong character, stop checking lines
+						break
+					}
+
+					if matchCount == 8 {
+						match = true
 					}
 				}
-
-				// If all 8 lines matched perfectly
-				if matchCount == 8 {
-					b.WriteRune(rune(asciiVal))
-					current_column += charWidth // Move cursor past this character
-					matched = true
-					break // Stop searching the database, move to next character position
+				if match == true {
+					b.WriteRune(rune(asciVl))
+					match = false
+					current_column += charWidth
+					break
 				}
-			}
 
-			// Edge Case Safety: If no character matched, prevent an infinite loop
-			if !matched {
-				current_column++
 			}
 		}
-		b.WriteString("\n") // Newline after finishing an 8-line row
+		b.WriteString("\n")
+
 	}
 	PrintArt(b.String())
 }
