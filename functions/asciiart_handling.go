@@ -4,7 +4,7 @@ import (
 	"strings"
 )
 
-func hancleSpace(SliceInput []string) []string {
+func handleSpace(SliceInput []string) []string {
 	for i, input := range SliceInput {
 		sortinput := strings.Fields(input)
 
@@ -42,7 +42,7 @@ func ProcessInput(asciiTable [][]string, inputArg []string, flag map[string]stri
 	}
 
 	if align == "justify" {
-		inputArg = hancleSpace(inputArg)
+		inputArg = handleSpace(inputArg)
 	}
 
 	for _, word := range inputArg {
@@ -50,7 +50,7 @@ func ProcessInput(asciiTable [][]string, inputArg []string, flag map[string]stri
 			art.WriteString("\n")
 			continue
 		}
-		// get color musk to mark if index needs color 
+		// get color musk to mark if index needs color
 		needColor := GetColorMusk(word, subStr, color)
 		rendLines := RenderLine(word, asciiTable)
 		if align != "" {
@@ -78,9 +78,11 @@ func ProcessInput(asciiTable [][]string, inputArg []string, flag map[string]stri
 					space := Addpadding(padd)
 					CheckAlignment(align)
 					if i == 0 && align == "right" {
-						art.WriteString(space);art.WriteString(asciiTable[char-32][lineChar])
+						art.WriteString(space)
+						art.WriteString(asciiTable[char-32][lineChar])
 					} else if align == "center" && i == 0 {
-						art.WriteString(space);art.WriteString(asciiTable[char-32][lineChar])
+						art.WriteString(space)
+						art.WriteString(asciiTable[char-32][lineChar])
 					} else if align == "left" {
 						art.WriteString(asciiTable[char-32][lineChar])
 					} else if align == "justify" && char == 32 {

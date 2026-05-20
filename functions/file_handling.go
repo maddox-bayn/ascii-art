@@ -7,6 +7,7 @@ import (
 	"os"
 	"strings"
 )
+
 // function helps to reverse ascii representation back to text format
 func ToReverse(fileName string, banner [][]string) {
 	var b strings.Builder
@@ -43,10 +44,6 @@ func ToReverse(fileName string, banner [][]string) {
 			continue
 		}
 		current_column := 0
-
-		if len(block[0]) < 9 {
-			continue
-		}
 		for current_column < len(block[0]) {
 			match := false
 			for asciVl := 32; asciVl < 127; asciVl++ {
