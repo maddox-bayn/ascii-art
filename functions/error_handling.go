@@ -18,16 +18,23 @@ func CheckArgument(args []string) error {
 	} else if arglen > 3 {
 		return errors.New("too many arguments")
 	}
+	err := ValidateInput(args)
+	if err != nil {
+		return err
+	}
 	return nil
 }
-func ValidateInput(str string) {
-	for _, char := range str {
-		if char < 32 || char > 126 {
-			//fmt.Println("Error: Wrong input Try: PRINTABLE ASCII CHARACTER")
-			fmt.Fprint(os.Stdout, "Error: Wrong input Try: PRINTABLE ASCII CHARACTER\n")
-			os.Exit(2)
+func ValidateInput(str []string) error {
+	for _, word := range str {
+		for _, char := range word {
+			if char < 32 || char > 126 {
+				//fmt.Println("Error: Wrong input Try: PRINTABLE ASCII CHARACTER")
+				return fmt.Errorf("Error: Wrong input '%c' Try: PRINTABLE ASCII CHARACTER  \n", char)
+			}
 		}
 	}
+
+	return nil
 }
 
 func CheckAlignment(s string) {

@@ -23,16 +23,22 @@ func RenderLine(text string, banner [][]string) []string {
 	return result
 }
 
-func saveTofile(art, fileNmae string) {
-	file, err := os.Create(fileNmae)
+func saveTofile(art, fileName string) {
+
+	ext := filepath.Ext(fileName)
+	if ext == "" {
+		fileName += ".txt"
+	}
+	if ext != ".txt" && ext != "" {
+		log.Fatal("Error file must have txt as an extention: <filename.txt>, ", ext)
+	}
+
+	file, err := os.Create(fileName)
 	if err != nil {
 		log.Fatal("Error creating file")
 	}
 	defer file.Close()
-	filename := file.Name()
-	if ext := filepath.Ext(filename); ext != ".txt" {
-		log.Fatal("Error file must have txt as an extention: <filename.txt>, ", ext)
-	}
+
 	_, err = file.Write([]byte(art))
 	if err != nil {
 		log.Fatal("Error... writing to file", err)

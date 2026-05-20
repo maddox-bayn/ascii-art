@@ -18,6 +18,10 @@ func main() {
 		return
 	}
 	flag, args := functions.ExtractFlags(defaultArgs)
+	if len(flag) == 0 && len(args) > 2 {
+		functions.Usage()
+		os.Exit(2)
+	}
 
 	subStr, text, banner := functions.GetArgs(args, flag["color"] != "")
 

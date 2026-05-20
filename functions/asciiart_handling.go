@@ -38,6 +38,7 @@ func ProcessInput(asciiTable [][]string, inputArg []string, flag map[string]stri
 
 		}
 		SaveOrPrintart(art.String(), flag)
+		return
 	}
 
 	if align == "justify" {
@@ -49,6 +50,7 @@ func ProcessInput(asciiTable [][]string, inputArg []string, flag map[string]stri
 			art.WriteString("\n")
 			continue
 		}
+		// get color musk to mark if index needs color 
 		needColor := GetColorMusk(word, subStr, color)
 		rendLines := RenderLine(word, asciiTable)
 		if align != "" {
@@ -76,9 +78,9 @@ func ProcessInput(asciiTable [][]string, inputArg []string, flag map[string]stri
 					space := Addpadding(padd)
 					CheckAlignment(align)
 					if i == 0 && align == "right" {
-						art.WriteString(space + asciiTable[char-32][lineChar])
+						art.WriteString(space);art.WriteString(asciiTable[char-32][lineChar])
 					} else if align == "center" && i == 0 {
-						art.WriteString(space + asciiTable[char-32][lineChar])
+						art.WriteString(space);art.WriteString(asciiTable[char-32][lineChar])
 					} else if align == "left" {
 						art.WriteString(asciiTable[char-32][lineChar])
 					} else if align == "justify" && char == 32 {
@@ -103,6 +105,7 @@ func ProcessInput(asciiTable [][]string, inputArg []string, flag map[string]stri
 	if align == "justify" {
 		artSlice := strings.Split(art.String(), "\n")
 		for i, line := range artSlice {
+			// process artSlice
 			linelen := len(strings.ReplaceAll(line, "{space}", ""))
 			spaceCoutbetweenWord := strings.Count(line, "{space}")
 
@@ -113,6 +116,8 @@ func ProcessInput(asciiTable [][]string, inputArg []string, flag map[string]stri
 			space := Addpadding(padd)
 			artSlice[i] = strings.ReplaceAll(line, "{space}", space)
 		}
+		art.Reset()
+		art.WriteString(strings.Join(artSlice, "\n"))
 	}
 	SaveOrPrintart(art.String(), flag)
 }

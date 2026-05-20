@@ -7,7 +7,7 @@ import (
 	"os"
 	"strings"
 )
-
+// function helps to reverse ascii representation back to text format
 func ToReverse(fileName string, banner [][]string) {
 	var b strings.Builder
 	file, err := os.Open(fileName)
