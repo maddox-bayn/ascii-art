@@ -52,11 +52,12 @@ func ToReverse(fileName string, banner [][]string) {
 
 				matchCount := 0
 
+				if current_column+charWidth > len(block[0]) {
+					continue
+				}
+
 				for lineidx := 0; lineidx < 8; lineidx++ {
 
-					if current_column+charWidth > len(block[0]) {
-						continue
-					}
 					//fmt.Println("a")
 					if block[lineidx][current_column:current_column+charWidth] == asciiArt[lineidx] {
 						matchCount++

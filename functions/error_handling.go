@@ -4,9 +4,10 @@ import (
 	"errors"
 	"fmt"
 	"os"
+	"strings"
 )
 
-func CheckArgument(args []string) error {
+func CheckArgument(args, defaultarg []string) error {
 	arglen := len(args)
 	if arglen == 3 {
 		switch args[arglen-1] {
@@ -17,6 +18,14 @@ func CheckArgument(args []string) error {
 		}
 	} else if arglen > 3 {
 		return errors.New("too many arguments")
+	}
+	if len(defaultarg) == 2 && !strings.HasPrefix(defaultarg[0], "--") {
+		switch defaultarg[arglen-1] {
+		case "standard", "shadow", "thinkertoy":
+			// is valide banner
+		default:
+			return fmt.Errorf("not a banner name '%s' \nAvailable banner types are: 'standard' (default), 'shadow', and 'thinkertoy'", args[arglen-1])
+		}
 	}
 	err := ValidateInput(args)
 	if err != nil {

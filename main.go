@@ -25,7 +25,7 @@ func main() {
 
 	subStr, text, banner := functions.GetArgs(args, flag["color"] != "")
 
-	err := functions.CheckArgument(args)
+	err := functions.CheckArgument(args, defaultArgs)
 	if err != nil {
 		log.Fatal(err)
 	}
