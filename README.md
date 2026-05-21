@@ -27,7 +27,7 @@ The codebase is engineered strictly around decoupled structural patterns:Plainte
 
 
 🚀 Installation & SetupEnsure you have Go installed on your local operating environment.Bash# Clone the repository
-git clone https://acad.learn2earn.ng/git/oomale/ascii-art.git
+git clone https://github.com/maddox-bayn/ascii-art.git
 cd ascii-art
 
 **Initialize modules**
