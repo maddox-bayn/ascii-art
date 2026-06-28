@@ -8,6 +8,7 @@ import (
 	"strings"
 )
 
+// rendering text into art of []string of length 8 
 func RenderLine(text string, banner [][]string) []string {
 	var result []string
 	var b strings.Builder
@@ -23,6 +24,7 @@ func RenderLine(text string, banner [][]string) []string {
 	return result
 }
 
+// writing art to file
 func saveTofile(art, fileName string) {
 
 	ext := filepath.Ext(fileName)
@@ -45,11 +47,12 @@ func saveTofile(art, fileName string) {
 	}
 
 }
-
+// printing art to the terminal
 func PrintArt(s string) {
 	fmt.Printf("%s", s)
 }
 
+// helper function to print to terminal or to file
 func SaveOrPrintart(s string, flag map[string]string) {
 	file := flag["output"]
 	if file != "" {

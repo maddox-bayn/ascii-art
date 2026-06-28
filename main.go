@@ -8,9 +8,10 @@ import (
 	"strings"
 )
 
+// Recieve user input and call other functions to validat and process ascii art
 func main() {
 	defaultArgs := os.Args[1:]
-
+	// validat program usage
 	if len(defaultArgs) == 0 || len(defaultArgs[0]) == 0 {
 		if len(defaultArgs) > 1 && len(defaultArgs[0]) == 0 {
 			functions.Usage()

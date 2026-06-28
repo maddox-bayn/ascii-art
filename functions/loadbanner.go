@@ -4,7 +4,7 @@ import (
 	"bufio"
 	"os"
 )
-
+// function to load the banner into a 2D string
 func LoadBanner(filename string) ([][]string, error) {
 
 	// open bannner file to read line by line

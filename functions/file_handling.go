@@ -11,12 +11,14 @@ import (
 // function helps to reverse ascii representation back to text format
 func ToReverse(fileName string, banner [][]string) {
 	var b strings.Builder
+	// open and read file line by line 
 	file, err := os.Open(fileName)
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer file.Close()
 
+	// Group the lines into blocks of 8 lines.
 	var blocks [][]string
 	var block []string
 
@@ -43,7 +45,9 @@ func ToReverse(fileName string, banner [][]string) {
 			b.WriteString("\\n")
 			continue
 		}
+		// Start at column 0 
 		current_column := 0
+		// loop runs as long as column is less than art width
 		for current_column < len(block[0]) {
 			match := false
 			for asciVl := 32; asciVl < 127; asciVl++ {
@@ -51,14 +55,14 @@ func ToReverse(fileName string, banner [][]string) {
 				charWidth := len(asciiArt[0])
 
 				matchCount := 0
-
+				// Safety guard: Don't slice past the end of the input line!
 				if current_column+charWidth > len(block[0]) {
 					continue
 				}
 
 				for lineidx := 0; lineidx < 8; lineidx++ {
 
-					//fmt.Println("a")
+					// slice out the correct column window from this line
 					if block[lineidx][current_column:current_column+charWidth] == asciiArt[lineidx] {
 						matchCount++
 					} else {
@@ -69,15 +73,17 @@ func ToReverse(fileName string, banner [][]string) {
 						match = true
 					}
 				}
+				// if match found write to the string builder
 				if match == true {
 					b.WriteRune(rune(asciVl))
 					match = false
 					current_column += charWidth
-					break
+					break // stop searching the data base
 				}
 
 			}
 		}
+		
 		if i < len(blocks)-1 {
 			b.WriteString("\\n")
 		}

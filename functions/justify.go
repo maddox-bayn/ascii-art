@@ -2,34 +2,29 @@ package functions
 
 import (
 	"log"
+	"os"
+	"os/exec"
+	"strconv"
 	"strings"
-	"syscall"
-	"unsafe"
 )
-
-type winsize struct {
-	Row    uint16
-	Col    uint16
-	Xpixel uint16
-	Ypixel uint16
-}
-
+// get the current termianl window size
 func GetTerminalWidth() int {
-	var ws = &winsize{}
+	// running a stty command
+	cmd := exec.Command("stty", "size")
+	cmd.Stdin = os.Stdin
 
-	r, _, errno := syscall.Syscall(syscall.SYS_IOCTL,
-		uintptr(syscall.Stdout),
-		uintptr(syscall.TIOCGWINSZ),
-		uintptr(unsafe.Pointer(ws)))
-	if errno != 0 {
-		log.Fatal(errno)
+	output, err := cmd.Output()
+	if err != nil {
+		return -1
 	}
-	if int(r) == -1 {
-		return 80
+
+	width, err := strconv.Atoi(strings.Fields(string(output))[1])
+	if err != nil {
+		return -1
 	}
-	return int(ws.Col)
+	return width
 }
-
+// helper function to get the the number of space to add
 func Padding(flag map[string]string, tWidth, ascii_len int) int {
 	//	var alignv = []string{"right", "left", "center"}
 	align := flag["align"]
@@ -41,7 +36,7 @@ func Padding(flag map[string]string, tWidth, ascii_len int) int {
 	}
 	return spacetoAdd
 }
-
+// helper function to add space
 func Addpadding(padd int) string {
 	if padd < 1 {
 		log.Fatal("Error... with window size.. try resize your window")

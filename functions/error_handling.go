@@ -7,6 +7,7 @@ import (
 	"strings"
 )
 
+// handle error and checking default argument and filtered args
 func CheckArgument(args, defaultarg []string) error {
 	arglen := len(args)
 	if arglen == 3 {
@@ -33,6 +34,8 @@ func CheckArgument(args, defaultarg []string) error {
 	}
 	return nil
 }
+
+// validat args for character not in range of ascii char 32 to 126
 func ValidateInput(str []string) error {
 	for _, word := range str {
 		for _, char := range word {
@@ -46,6 +49,7 @@ func ValidateInput(str []string) error {
 	return nil
 }
 
+// helper function to check for invalid alignment
 func CheckAlignment(s string) {
 	switch s {
 	case "left", "right", "center", "justify":

@@ -12,7 +12,7 @@ const (
 	Orange  = "\033[0;38;5;208m"
 	Reset   = "\033[0m"
 )
-
+// store each color in map
 var ColorMap = map[string]string{
 	"black":   Black,
 	"red":     Red,
@@ -24,7 +24,7 @@ var ColorMap = map[string]string{
 	"orange":  Orange,
 	"white":   White,
 }
-
+// using musk to track if character index needs color
 func GetColorMusk(word, subStr, color string) []bool {
 	needColor := make([]bool, len(word))
 	if subStr == "" && color != "" {

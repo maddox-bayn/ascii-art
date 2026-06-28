@@ -1,9 +1,11 @@
 package functions
 
 import (
+	"log"
 	"strings"
 )
 
+// helper function to handle space
 func handleSpace(SliceInput []string) []string {
 	for i, input := range SliceInput {
 		sortinput := strings.Fields(input)
@@ -12,8 +14,10 @@ func handleSpace(SliceInput []string) []string {
 	}
 	return SliceInput
 }
-func ProcessInput(asciiTable [][]string, inputArg []string, flag map[string]string, subStr string) {
 
+// engine that handle flags input argument into ascii art representation
+func ProcessInput(asciiTable [][]string, inputArg []string, flag map[string]string, subStr string) {
+	// using string builder to ascii art
 	var art strings.Builder
 	isOnlyNewline := true
 	color := flag["color"]
@@ -55,6 +59,9 @@ func ProcessInput(asciiTable [][]string, inputArg []string, flag map[string]stri
 		rendLines := RenderLine(word, asciiTable)
 		if align != "" {
 			terminalWidth = GetTerminalWidth()
+			if terminalWidth == -1 {
+				log.Fatal(-1)
+			}
 		}
 
 		AsciiWidth := len(rendLines[0])

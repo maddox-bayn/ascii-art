@@ -3,7 +3,7 @@ package functions
 import (
 	"strings"
 )
-
+//  extract flags from argument if they exists
 func ExtractFlags(defaultAgs []string) (map[string]string, []string) {
 	flags := make(map[string]string)
 	var filterdArgs []string
@@ -12,6 +12,7 @@ func ExtractFlags(defaultAgs []string) (map[string]string, []string) {
 		args := defaultAgs[i]
 		if strings.HasPrefix(args, "--color=") {
 			flags["color"] = args[8:]
+			// checking if provided color exist
 			_, ok := ColorMap[flags["color"]]
 			if !ok {
 				PrintColor()
@@ -36,7 +37,7 @@ func ExtractFlags(defaultAgs []string) (map[string]string, []string) {
 	}
 	return flags, filterdArgs
 }
-
+// get text, banner and sub string if it  exist form filtered argument
 func GetArgs(args []string, hascolor bool) (substr, text, banner string) {
 	banner = "standard"
 	if len(args) > 1 {
